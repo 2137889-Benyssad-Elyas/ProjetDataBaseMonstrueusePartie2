@@ -127,3 +127,5 @@ CREATE TABLE Ligne_coffre (
     FOREIGN KEY (coffre) REFERENCES Coffre_tresor (id_coffre_tresor),
     FOREIGN KEY (objet) REFERENCES Objet (id_objet)
     );
+    
+-- modification test !!
