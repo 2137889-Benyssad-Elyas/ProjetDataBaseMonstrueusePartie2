@@ -1,21 +1,41 @@
-DELIMITER $$
+USE ressource_monstrueuse;
 
-CREATE FUNCTION cryptage(_mdp CHAR) RETURNS BLOB NOT DETERMINISTIC MODIFIES SQL DATA
+DELIMITER $$
+DROP FUNCTION cryptage;
+CREATE FUNCTION cryptage(_mdp VARCHAR(255)) RETURNS BLOB DETERMINISTIC 
 BEGIN 
 DECLARE mdp_crypter BLOB;
 
-SET mdp_crypter = AES_ENCRYPT(_mdp, UNHEX(_cle));
+SET mdp_crypter = AES_ENCRYPT(_mdp, UNHEX('F3229A0B371ED2D9441B830D21A390C3'));
  
- RETURN VALEUR;
-END 
+ RETURN mdp_crypter;
+END $$
 
-CREATE FUNCTION decryptage(mdp_crypter BLOB) RETURNS BLOB NOT DETERMINISTIC MODIFIES SQL DATA
+
+DROP FUNCTION decryptage;
+CREATE FUNCTION decryptage(_mdp_crypter BLOB) RETURNS VARCHAR(255) DETERMINISTIC
 BEGIN 
-DECLARE mdp_clair CHAR;
+DECLARE mdp_clair VARCHAR(255);
 
-SET mdp_clair = AES_DECRYPT(mdp_crypter, UNHEX(_cle));
+SET mdp_clair = AES_DECRYPT(_mdp_crypter, UNHEX('F3229A0B371ED2D9441B830D21A390C3'));
  
- RETURN VALEUR;
-END 
+ RETURN CAST(mdp_clair AS CHAR);
+END $$
  
- DELIMITER ;
+ CREATE FUNCTION trouver_leader(_nom_expedition VARCHAR(255)) RETURNS VARCHAR(255) DETERMINISTIC
+BEGIN 
+DECLARE _id_aventurier INTEGER;
+
+SELECT id, nom, niveau FROM Aventurier 
+NATURAL JOIN Expedition_aventurier 
+NATURAL JOIN Expedition
+WHERE 
+ 
+ RETURN _id_aventurier;
+END $$
+
+DELIMITER ;
+
+ 
+ 
+ 
